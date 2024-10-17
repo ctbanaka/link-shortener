@@ -3,6 +3,7 @@ package in.rushlnk.linkshortner.controller;
 import in.rushlnk.linkshortner.dto.UrlDto;
 import in.rushlnk.linkshortner.service.UrlService;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RestController;
 import in.rushlnk.linkshortner.models.Url;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class UrlController {
     @Autowired
     private UrlService urlService;
 
+    @Value("${linkshortner.custom.domain}")
+    private String customProperty;
+
     @PostMapping("/api/url/shorten")
     public ResponseEntity<String> createShortUrl(@RequestBody UrlDto urlDto) {
         LocalDateTime expirationDate = LocalDateTime.now().plusDays(30);
@@ -35,7 +39,7 @@ public class UrlController {
         Url url = urlService.createShortUrl(sanitizedUrl, expirationDate);
 //        }
 
-        return new ResponseEntity<>("https://rushlnk.in/"+url.getShortUrlKey(), HttpStatus.CREATED);
+        return new ResponseEntity<>(customProperty+"/"+url.getShortUrlKey(), HttpStatus.CREATED);
     }
 
     @GetMapping("/{shortCode}")
