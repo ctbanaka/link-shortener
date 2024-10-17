@@ -1,5 +1,6 @@
 package in.rushlnk.linkshortner.service;
 
+import in.rushlnk.linkshortner.exceptions.ResourceNotFoundException;
 import in.rushlnk.linkshortner.models.Url;
 import in.rushlnk.linkshortner.models.User;
 import in.rushlnk.linkshortner.repositories.UrlRepository;
@@ -24,15 +25,27 @@ public class UrlServiceImpl implements UrlService {
         url.setExpirationDate(expirationDate);
         url.setUser(user);
 
-        // Generate short URL key before saving
-        String shortUrlKey = encodeBase62(url.getId());
-        url.setShortUrlKey(shortUrlKey);
+        Url savedUrl = urlRepository.save(url);
 
-        return urlRepository.save(url);
+        String shortUrlKey = encodeBase62(savedUrl.getId());
+
+        savedUrl.setShortUrlKey(shortUrlKey);
+
+        return urlRepository.save(savedUrl);
     }
+
+
+
 
     public Url createShortUrl(String originalUrl, LocalDateTime expirationDate) {
         return createShortUrl(originalUrl, null, expirationDate);
+    }
+
+    @Override
+    public String getLongUrl(String shortCode) {
+     return urlRepository.findByShortUrlKey(shortCode)
+             .map(Url::getOriginalUrl)
+             .orElseThrow(()->new ResourceNotFoundException("Url not found"));
     }
 
     private static String encodeBase62(Long id) {

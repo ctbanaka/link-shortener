@@ -7,4 +7,5 @@ import java.time.LocalDateTime;
 public interface UrlService {
 
     Url createShortUrl(String originalUrl, LocalDateTime expireAt);
+    String getLongUrl(String shortCode);
 }

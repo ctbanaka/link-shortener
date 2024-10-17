@@ -9,7 +9,6 @@ public class LinkshortnerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LinkshortnerApplication.class, args);
-		System.out.println("link shortener application started");
 	}
 
 }

@@ -23,7 +23,7 @@ public class User {
     private String username;
 
     @Column(nullable = false)
-    private String password; // Will be stored in a hashed format
+    private transient String password; // Will be stored in a hashed format
 
     private String email;
 //    @ElementCollection(fetch = FetchType.EAGER)
