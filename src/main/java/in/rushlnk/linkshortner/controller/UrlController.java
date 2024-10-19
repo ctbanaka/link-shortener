@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/")
+@CrossOrigin(origins = "https://rushlnk.in")
 public class UrlController {
 
     @Autowired

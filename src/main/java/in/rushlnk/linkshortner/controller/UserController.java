@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "https://rushlnk.in")
 @Tag(name = "users",description = "User related user Api's")
 public class UserController {
 
